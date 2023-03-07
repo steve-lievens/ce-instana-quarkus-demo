@@ -18,9 +18,11 @@ The above setup allows you to compare the metrics from the default Instana jvm s
 
 The installation has been tested on OpenShift 4.10, so currently no guarantee it will work on another version. The installation will do a source to image build for the Node.js and Quarkus based applications, so it will take up to ten minutes (and even a lot longer if you are deploying the natively compiled version) before all the applications are up and running.
 
-To install download this repo locally and navigate into the quarkus-jvm-demo folder with a command line. Make sure to be logged into your OpenShift cluster with oc. Then issue :
+To install download this repo locally and open a command line. Make sure to be logged into your OpenShift cluster with oc. Then issue :
+(You can give the OpenShift project a different name than the one below)
 
 ```
+cd quarkus-jvm-demo
 oc new-project quarkus-java
 oc apply -f .
 ```
