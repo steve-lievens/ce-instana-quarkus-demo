@@ -8,7 +8,7 @@ metadata:
     app: quarkus-proxy-native
     app.kubernetes.io/component: quarkus-proxy-native
     app.kubernetes.io/instance: quarkus-proxy-native
-    app.kubernetes.io/name: quarkus
+    app.kubernetes.io/name: quarkus-proxy-native
     app.kubernetes.io/part-of: quarkus-app-native
 spec:
   nodeSelector: null
