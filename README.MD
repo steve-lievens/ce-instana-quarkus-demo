@@ -21,9 +21,9 @@ To see the results in Instana, you will need to instrument this cluster with the
 
 ## Installation
 
-The installation will do a source to image (S2I) build for the Node.js and Quarkus based applications, so it will take up to ten minutes (and even a lot longer if you are deploying the natively compiled version) before all the applications are up and running.
+The installation will do a source to image (S2I) build for the Node.js and Quarkus based applications, so depending on the speed and I/O of your worker nodes it will take from 3 up to twenty minutes (and even a lot longer if you are deploying the natively compiled version) before all the applications are up and running.
 
-The install will pull the source from these Git repo's :
+The install will pull the source from these Git repo's and build the images with a multi-stage Dockerfile :
 
 - [Node.js client](https://github.com/steve-lievens/ce-node-react-demo)
 - [Quarkus Proxy](https://github.com/steve-lievens/ce-quarkus-proxy)
@@ -59,6 +59,8 @@ service/quarkus-proxy created
 deployment.apps/quarkus-proxy created
 imagestream.image.openshift.io/quarkus-proxy created
 ```
+
+Three deployments (for Node.js and the two Quarkus apps) and one statefulset (for Postgresql) will be created. Postgreql will simply pull an existing container from the Red Hat registry, but for the other ones a build will be started. Please check if these builds all run fine as it can happen that a build fails due to insufficient resources on the system. When that happens, simply start a new build for the failed one.
 
 After starting, The Node.js app will automatically begin calling the Quarkus proxy, so you should see "movement" in Instana after that.
 
