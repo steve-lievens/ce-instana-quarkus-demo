@@ -1,0 +1,16 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-quarkus-proxy"
+  name: quarkus-proxy
+  labels:
+    app: quarkus-proxy
+    app.kubernetes.io/component: quarkus-proxy
+    app.kubernetes.io/instance: quarkus-proxy
+    app.kubernetes.io/name: quarkus-proxy
+    app.kubernetes.io/part-of: quarkus-app
+spec:
+  lookupPolicy:
+    local: true
