@@ -14,15 +14,22 @@ The Quarkus applications can be deployed as standard jvm based applications or a
 
 The above setup allows you to compare the metrics from the default Instana jvm sensor against the Open Telemetry integration. At the time of writing, Open Telemetry support in Instana is still in beta, but it already provides some decent insights.
 
+## Prerequisites
+
+In order to run this demo you will need an OpenShift cluster version 4.10, so currently no guarantee that it will work on another version.
+To see the results in Instana, you will need to instrument this cluster with the Instana agents and have access to an Instana environment where these agents will report into.
+
 ## Installation
 
-The installation has been tested on OpenShift 4.10, so currently no guarantee it will work on another version. The installation will do a source to image build for the Node.js and Quarkus based applications, so it will take up to ten minutes (and even a lot longer if you are deploying the natively compiled version) before all the applications are up and running.
+The installation will do a source to image (S2I) build for the Node.js and Quarkus based applications, so it will take up to ten minutes (and even a lot longer if you are deploying the natively compiled version) before all the applications are up and running.
 
 The install will pull the source from these Git repo's :
 
 - [Node.js client](https://github.com/steve-lievens/ce-node-react-demo)
 - [Quarkus Proxy](https://github.com/steve-lievens/ce-quarkus-proxy)
 - [Quarkus Book](https://github.com/steve-lievens/ce-quarkus-book)
+
+### Deploy the java version
 
 To install download this repo locally and open a command line. Make sure to be logged into your OpenShift cluster with oc. Then issue :
 (You can give the OpenShift project a different name than the one below)
@@ -54,3 +61,18 @@ imagestream.image.openshift.io/quarkus-proxy created
 ```
 
 After starting, The Node.js app will automatically begin calling the Quarkus proxy, so you should see "movement" in Instana after that.
+
+### Deploy the native binary version
+
+This install is very similar as the one above, you just need to move into a different directory. So go up one level and issue below commands.
+(You can give the OpenShift project a different name than the one below)
+
+```
+cd quarkus-native-otel-demo
+oc new-project quarkus-native
+oc apply -f .
+```
+
+## Instana setup
+
+The details on how to setup the Instana side can be found [here](INSTANA-SETUP.MD).

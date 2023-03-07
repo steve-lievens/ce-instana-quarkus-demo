@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: quarkus-proxy-native
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"quarkus-book-native"}]'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"quarkus-proxy-native:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"quarkus-proxy-native\")].image"}]
+  labels:
+    app: quarkus-proxy-native
+    app.kubernetes.io/component: quarkus-proxy-native
+    app.kubernetes.io/instance: quarkus-proxy-native
+    app.kubernetes.io/name: quarkus
+    app.kubernetes.io/part-of: quarkus-app-native
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-proxy-native
+  template:
+    metadata:
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: "*"
+      labels:
+        app: quarkus-proxy-native
+    spec:
+      containers:
+        - name: quarkus-proxy-native
+          image: quarkus-proxy-native:latest
+          env:
+            - name: PROXY_ENDPOINT
+              value: quarkus-book-native
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%

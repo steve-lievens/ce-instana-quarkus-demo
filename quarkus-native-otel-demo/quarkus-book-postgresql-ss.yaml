@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/part-of: database
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+      containers:
+        - name: postgres
+          image: registry.redhat.io/rhel8/postgresql-13:latest
+          env:
+            - name: POSTGRESQL_USER
+              value: quarkususer
+            - name: POSTGRESQL_PASSWORD
+              value: quarkuspwd
+            - name: POSTGRESQL_DATABASE
+              value: publishers
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
