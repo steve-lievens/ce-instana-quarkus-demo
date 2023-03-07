@@ -16,7 +16,7 @@ The above setup allows you to compare the metrics from the default Instana jvm s
 
 ## Prerequisites
 
-In order to run this demo you will need an OpenShift cluster version 4.10, so currently no guarantee that it will work on another version.
+In order to run this demo you will need an OpenShift cluster version 4.10 or 4.12 (currently no guarantee that it will work on another version, but you can always try of course).
 To see the results in Instana, you will need to instrument this cluster with the Instana agents and have access to an Instana environment where these agents will report into.
 
 ## Installation
