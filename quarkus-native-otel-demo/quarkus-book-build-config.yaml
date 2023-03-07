@@ -3,7 +3,7 @@ apiVersion: build.openshift.io/v1
 metadata:
   annotations:
     app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-quarkus-book"
-  name: bc-quarkus-book
+  name: bc-quarkus-book-native
   labels:
     app: quarkus-book-native
     app.kubernetes.io/component: quarkus-book-native

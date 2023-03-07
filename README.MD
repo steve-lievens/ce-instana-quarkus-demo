@@ -76,3 +76,7 @@ oc apply -f .
 ## Instana setup
 
 The details on how to setup the Instana side can be found [here](INSTANA-SETUP.MD).
+
+## References
+
+- [Quarkus official website](https://quarkus.io)
