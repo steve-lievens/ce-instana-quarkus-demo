@@ -25,7 +25,7 @@ The details on how to install the demo application can be found [here](DEMOAPP-S
 
 ## Installing the Instana Agent
 
-If you need to know how to deploy the Instana Agent on your cluster, check this info.
+If you need to know how to deploy the Instana Agent on your cluster, check [this](INSTANA-AGENT-SETUP.MD) info.
 
 ## Viewing the data in Instana
 
