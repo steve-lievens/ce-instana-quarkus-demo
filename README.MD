@@ -32,6 +32,20 @@ The install will pull the source from these Git repo's and build the images with
 ### Deploy the java version
 
 To install download this repo locally and open a command line. Make sure to be logged into your OpenShift cluster with oc. Then issue :
+
+For OpenShift v4.10
+
+```
+cd ocpv410
+```
+
+For OpenShift v4.10
+
+```
+cd ocpv412
+```
+
+Then continue the install with :
 (You can give the OpenShift project a different name than the one below)
 
 ```

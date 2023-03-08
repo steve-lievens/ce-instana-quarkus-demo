@@ -1,0 +1,35 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-quarkus-book"
+  name: bc-quarkus-book-native
+  labels:
+    app: quarkus-book-native
+    app.kubernetes.io/component: quarkus-book-native
+    app.kubernetes.io/instance: quarkus-book-native
+    app.kubernetes.io/name: quarkus-book-native
+    app.kubernetes.io/part-of: quarkus-app-native
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "quarkus-book-native:latest"
+  strategy:
+    type: Docker
+    dockerStrategy:
+      env:
+        - name: OTEL_ENABLED
+          value: "true"
+      dockerfilePath: Dockerfile.native
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/steve-lievens/ce-quarkus-book"
+    contextDir: /
+  runPolicy: Serial
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange

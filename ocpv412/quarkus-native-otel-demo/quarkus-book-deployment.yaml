@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: quarkus-book-native
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"StatefulSet","name":"postgres"}]'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"quarkus-book-native:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"quarkus-book-native\")].image"}]
+  labels:
+    app: quarkus-book-native
+    app.kubernetes.io/component: quarkus-book-native
+    app.kubernetes.io/instance: quarkus-book-native
+    app.kubernetes.io/name: quarkus
+    app.kubernetes.io/part-of: quarkus-app-native
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-book-native
+  template:
+    metadata:
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: "*"
+      labels:
+        app: quarkus-book-native
+    spec:
+      containers:
+        - name: quarkus-book-native
+          image: quarkus-book-native:latest
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%

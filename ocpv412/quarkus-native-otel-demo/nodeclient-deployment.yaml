@@ -1,0 +1,60 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nodeclient
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"quarkus-proxy-native"}]'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"nodeclient:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"nodeclient\")].image"}]
+  labels:
+    app: nodeclient
+    app.kubernetes.io/component: nodeclient
+    app.kubernetes.io/instance: nodeclient
+    app.kubernetes.io/name: nodejs
+    app.kubernetes.io/part-of: nodeclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeclient
+  template:
+    metadata:
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: "*"
+      labels:
+        app: nodeclient
+    spec:
+      containers:
+        - name: nodeclient
+          image: nodeclient:latest
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+          env:
+            - name: CURL_HOSTS
+              value: >-
+                http://localhost:8080/getEnvironment,http://quarkus-proxy-native:8080/api/proxy/pubfrombook
+            - name: CURL_AUTO_START
+              value: "true"
+            - name: CURL_DEBUG_DATA
+              value: "false"
+            - name: ENABLE_INSTANA
+              value: "true"
+            - name: INSTANA_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%

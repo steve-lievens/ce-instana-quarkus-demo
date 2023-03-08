@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: nodeclient
+spec:
+  to:
+    kind: Service
+    name: nodeclient
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

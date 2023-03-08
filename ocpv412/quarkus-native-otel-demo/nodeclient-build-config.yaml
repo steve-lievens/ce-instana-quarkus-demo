@@ -1,0 +1,32 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-node-react-demo"
+  name: bc-nodeclient
+  labels:
+    app: nodeclient
+    app.kubernetes.io/component: nodeclient
+    app.kubernetes.io/instance: nodeclient
+    app.kubernetes.io/name: nodeclient
+    app.kubernetes.io/part-of: nodeclient
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "nodeclient:latest"
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/steve-lievens/ce-node-react-demo"
+    contextDir: /
+  runPolicy: Serial
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange

@@ -1,0 +1,16 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-quarkus-book"
+  name: quarkus-book-native
+  labels:
+    app: quarkus-book-native
+    app.kubernetes.io/component: quarkus-book-native
+    app.kubernetes.io/instance: quarkus-book-native
+    app.kubernetes.io/name: quarkus-book-native
+    app.kubernetes.io/part-of: quarkus-app-native
+spec:
+  lookupPolicy:
+    local: true

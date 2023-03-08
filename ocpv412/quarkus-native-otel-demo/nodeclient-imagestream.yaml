@@ -1,0 +1,16 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-node-react-demo"
+  name: nodeclient
+  labels:
+    app: nodeclient
+    app.kubernetes.io/component: nodeclient
+    app.kubernetes.io/instance: nodeclient
+    app.kubernetes.io/name: nodeclient
+    app.kubernetes.io/part-of: nodeclient
+spec:
+  lookupPolicy:
+    local: true
